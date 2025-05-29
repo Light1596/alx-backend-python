@@ -41,41 +41,41 @@ def create_database(db_name='users.db'):
              conn.close()
 
 
-def log_database_query(func):
-     @functools.wraps(func)
-     def wrapper(*args, **kwargs):
-         function_name = func.__name__
-         timestamp = datetime.now().isoformat()
-         query_type = "READ"  # You might make this dynamic later
+# def log_database_query(func):
+#      @functools.wraps(func)
+#      def wrapper(*args, **kwargs):
+#          function_name = func.__name__
+#          timestamp = datetime.now().isoformat()
+#          query_type = "READ"  # You might make this dynamic later
 
-         try:
-             conn = sqlite3.connect("users.db")
-             cursor = conn.cursor()
+#          try:
+#              conn = sqlite3.connect("users.db")
+#              cursor = conn.cursor()
 
-             result = func(*args, **kwargs)
+#              result = func(*args, **kwargs)
 
-             message = f"Function '{function_name}' executed successfully."
+#              message = f"Function '{function_name}' executed successfully."
 
-            #  cursor.execute(
-            #      "INSERT INTO users (name, email) VALUES (?,?)",
-            #      ('Light', 'lightsituma@gmail.com')
-            #  )
-             cursor.execute(
-                 "INSERT INTO logs (timestamp,function_name, query_type, message) VALUES (?, ?, ?, ?)",
-                 (timestamp,function_name, query_type, message)
-             )
+#              cursor.execute(
+#                  "INSERT INTO users (name, email) VALUES (?,?)",
+#                  ('Light', 'lightsituma@gmail.com')
+#              )
+#              cursor.execute(
+#                  "INSERT INTO logs (timestamp,function_name, query_type, message) VALUES (?, ?, ?, ?)",
+#                  (timestamp,function_name, query_type, message)
+#              )
 
-             conn.commit()
-             return result
-         except sqlite3.Error as e:
-             error_message = f"Function '{function_name}' encountered a database error: {e}"
-             print(error_message)
-         finally:
-             if conn:
-                 conn.close()
-     return wrapper
+#              conn.commit()
+#              return result
+#          except sqlite3.Error as e:
+#              error_message = f"Function '{function_name}' encountered a database error: {e}"
+#              print(error_message)
+#          finally:
+#              if conn:
+#                  conn.close()
+#      return wrapper
 
-@log_database_query
+#@log_database_query
 def fetch_all_users(query):
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
